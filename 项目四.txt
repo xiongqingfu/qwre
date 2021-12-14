@@ -1,0 +1,34 @@
+1、建立亚洲国家的视图asia_country，并要求进行修改和插入操作时仍需保证该视图只有亚洲国家，视图的属性名为Code，Name，Continent，Population，GNP, GovernmentForm.
+create view asia_country(Code,Name,Continent,Population,GNP,GovernmentForm)
+AS
+select Code,Name,Continent,Population,GNP,GovernmentForm
+from country
+where continent='asia';
+2、建立国家简称（country.Code）、城市名(city.Name)、语言名(countrylanguage.Language)的视图cc_language。本视图由三个基本表的连接操作导出。
+create view cc_language(国家简称,城市名,语言名)
+AS
+select a.code,b.name,c.language
+from country a join city b join countrylanguage c
+on a.code=b.CountryCode and b.CountryCode=c.CountryCode;
+3、定义一个反映国家独立年份的视图c_indepyear。
+create view c_indepyear(国家,独立年份)
+AS
+select name,indepyear
+from country;
+4、删除视图c_indepyear。
+drop view c_indepyear;
+5、在亚洲国家视图asia_country中找出国民生产总值GNP大于50000的国家名称和GNP。
+select name,GNP
+from asia_country
+where gnp > 50000;
+6、在asia_country视图中人口多于一千万的国家名称、政体。
+select name,governmentform
+from asia_country
+where population > 10000000;
+7、将亚洲国家视图asia_country中Code为“AFG”的政体改为“Republic”。
+update asia_country
+set governmentform='Republic'
+where code='AFG';
+8、向亚洲国家视图asia_countr中插入一个新的国家记录，其中Code为“DMC”、Name为“Demacia”，Cotinent为“Asia”，Population为“10000000”，GNP为“50000”，GovernmentForm为“Monarchy”。
+insert into asia_country
+values('DMC','Demacia','Asia','10000000','50000','Monarchy')
